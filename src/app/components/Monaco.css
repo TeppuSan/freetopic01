@@ -12,8 +12,12 @@
     width: 100%;
 }
 
+.buttonbox{
+    display: flexbox;
+}
+
 button{
-    height: 100%;
+    height: 50%;
     width: 40px;
     background-color: blue;
     color: brown;
