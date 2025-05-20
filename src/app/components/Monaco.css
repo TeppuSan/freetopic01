@@ -1,0 +1,24 @@
+@import "tailwindcss";
+
+.box{
+    height: 500px;
+    width: 100%;
+    display: flex;
+}
+.Editor{
+    width: 100%;
+}
+.result{
+    width: 100%;
+}
+
+button{
+    height: 100%;
+    width: 40px;
+    background-color: blue;
+    color: brown;
+}
+button:hover{
+    background-color: red;
+    color: yellow;
+}
