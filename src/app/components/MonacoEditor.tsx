@@ -1,9 +1,10 @@
+//./src/app/MonacoEditor
 "use client";
 
 import { Editor } from "@monaco-editor/react";
 
 import "./Monaco.css";
-import { useEffect,useRef,useState } from "react";
+import { ChangeEvent, useEffect,useRef,useState } from "react";
 useEffect
 useRef
 useState
@@ -29,6 +30,24 @@ export default function MonacoEditor(){
   const changeCode = (value: string | undefined) => {
     setCode(value || "");
   };
+  
+  const htele = document.getElementById("html")   
+  const conele = document.getElementById("console")
+  
+  const [language,setLanguage]=useState(`html`);
+  
+  const handleLanguage=(e:ChangeEvent<HTMLSelectElement>)=>{
+    setLanguage(e.target.value)
+      if (htele && conele) {
+        if (e.target.value === "html") {
+          htele.style.display = "";
+          conele.style.display = "none";
+        } else {
+          htele.style.display = "none";
+          conele.style.display = "";
+        }
+      }
+  };
  
   function handleEditorDidMount(editor: any) {
     editorRef.current = editor;
@@ -52,13 +71,27 @@ export default function MonacoEditor(){
       URL.revokeObjectURL(dl);
     }
   }
+
+  function createJson(){
+    var LangCode={
+      posLang:language,
+      posCode:code
+    }
+  window.alert(JSON.stringify(LangCode, null, 2));
+  }
     
     return(
         <div className="box">
+          <select onChange={handleLanguage}>
+            <option value="html">html</option>
+            <option value="javascript">JavaScript</option>
+            <option value="c">C</option>
+            <option value="python">Python</option>
+          </select>
             <div className="Editor" id="Edit">
                 <Editor
                 height="500px"
-                defaultLanguage="html"
+                language={language} // defaultLanguage ではなく language を使用
                 value={code}
                 onChange={changeCode}//入力が変わるごとに実行
                 theme="vs-dark"
@@ -74,16 +107,26 @@ export default function MonacoEditor(){
                 {txtdownload}
                 >これはtxt保存ボタンです
                 </button>
+                <button onClick=
+                {createJson}
+                >これは実行ボタンです
+                </button>
             </div>  
             <div className="result">
                 <iframe
+                id="html"
                 height="500px"
                 width="100%"
                 srcDoc={code}//srcDocだと埋め込むhtmlを直接入れれる
                 title="now"
                 sandbox=""//内容の制限
                 />
-            </div>
+              <div id="console" style={{display:'none'}}>
+                <pre>
+                  {code}//仮置き
+                </pre>
+              </div>
+            </div >
         </div>
     )
 }
