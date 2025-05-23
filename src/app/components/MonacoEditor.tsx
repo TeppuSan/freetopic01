@@ -38,7 +38,7 @@ export default function MonacoEditor(){
   
   const handleLanguage=(e:ChangeEvent<HTMLSelectElement>)=>{
     setLanguage(e.target.value)
-      if (htele && conele) {
+      if (htele && conele) {//値がnullの対策
         if (e.target.value === "html") {
           htele.style.display = "";
           conele.style.display = "none";
@@ -72,13 +72,33 @@ export default function MonacoEditor(){
     }
   }
 
-  function createJson(){
-    var LangCode={
-      posLang:language,
-      posCode:code
+  async function createJson() {
+  const LangCode = {
+    posLang: language,
+    posCode: code,
+  };
+
+  try {
+    const response = await fetch('/api/posts', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(LangCode),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
-  window.alert(JSON.stringify(LangCode, null, 2));
+
+    const result = await response.json();
+    console.log('サーバーからの応答:', result);
+    window.alert(JSON.stringify(result, null, 2));
+  } catch (error) {
+    console.error('送信エラー:', error);
+    window.alert('データの送信に失敗しました');
   }
+}
     
     return(
         <div className="box">
