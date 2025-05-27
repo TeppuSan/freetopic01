@@ -14,9 +14,7 @@ const MonacoEditor = dynamic(() => import("./components/MonacoEditor"), {
 export default function Home() {
   return (
     <div>
-      <div>TouhuHome</div>
       {/* ここから下各コンポーネント */}
-      <Link href={'/touhu'}>Touhu</Link><br />
         <MonacoEditor/>
     </div>
   );

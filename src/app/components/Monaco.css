@@ -1,28 +1,42 @@
 @import "tailwindcss";
 
 .box{
-    height: 500px;
+    height: 100%;
     width: 100%;
-    display: flex;
+    display: block;
 }
 .Editor{
+    height: 300px;
+    min-height: 200px;
+    max-height: 800px;
+    display: flex;
+    resize: vertical;
+    overflow: hidden;
     width: 100%;
 }
+
+.Name{
+    width: 100%;
+}
+
+.Editorbox{
+    width: 100%;
+}
+
 .result{
     width: 100%;
 }
 
-.buttonbox{
-    display: flexbox;
+.edithead{
+    background-color: black;
+    color: rgb(255, 255, 255);
+    display: flex;
 }
 
 button{
-    height: 50%;
-    width: 40px;
-    background-color: blue;
-    color: brown;
+    margin: 0 15px;
+    background-color: rgb(0, 0, 0);
 }
 button:hover{
-    background-color: red;
-    color: yellow;
+    background-color: rgb(44, 44, 44);
 }
