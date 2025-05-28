@@ -78,11 +78,37 @@ background-color:silver;
   function jsdownload() {
     if (editorRef.current) {
       //const blob = new Blob(データ, ファイルタイプ);
-      const blob = new Blob([code],{type:"text/plain"});
+      const blob = new Blob([jscode],{type:"text/plain"});
       const dl = URL.createObjectURL(blob);//ダウンロードリンクの作成
       const a =document.createElement("a");
       a.href=dl;
       a.download="sample.js";//ここでダウンロードの指定
+      a.click();
+      URL.revokeObjectURL(dl);
+    }
+  }
+
+  
+  function alldownload() {
+    if (editorRef.current) {
+      //const blob = new Blob(データ, ファイルタイプ);
+      const blob = new Blob([`<html>
+  <head>
+    <style>
+      ${csscode}
+    </style>
+  </head>
+  <body>
+    ${code}
+  </body>
+  <script>
+    ${jscode}
+  </script>
+</html>`],{type:"text/plain"});
+      const dl = URL.createObjectURL(blob);//ダウンロードリンクの作成
+      const a =document.createElement("a");
+      a.href=dl;
+      a.download="all.html";//ここでダウンロードの指定
       a.click();
       URL.revokeObjectURL(dl);
     }
@@ -99,6 +125,10 @@ background-color:silver;
                   <button onClick=
                   {htmldownload}
                   >download
+                  </button>
+                  <button onClick=
+                  {alldownload}
+                  >alldownload
                   </button>
                 </div>
                 <Editor
@@ -151,7 +181,7 @@ background-color:silver;
           </div>
             <div className="result">
                 <iframe
-                height="500px"
+                height="100%"
                 width="100%"
                 srcDoc={`<html><head><style>${csscode}</style></head><body>${code}</body><script>${jscode}</script></html>`}//srcDocだと埋め込むhtmlを直接入れれる
                 title="now"

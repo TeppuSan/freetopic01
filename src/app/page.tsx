@@ -13,7 +13,7 @@ const MonacoEditor = dynamic(() => import("./components/MonacoEditor"), {
 
 export default function Home() {
   return (
-    <div>
+    <div className="wrap">
       {/* ここから下各コンポーネント */}
         <MonacoEditor/>
     </div>
