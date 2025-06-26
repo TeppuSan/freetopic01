@@ -5,7 +5,7 @@ import type * as monaco from "monaco-editor";
 
 
 import "./Monaco.css";
-import { useEffect,useRef,useState } from "react";
+import { useRef,useState } from "react";
 
 export default function MonacoEditor(){
     const editorRef=useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
@@ -41,11 +41,11 @@ background-color:silver;
     editorRef.current = editor;
   }
 
-  function handleClick() {
-    if (editorRef.current) {
-      window.alert(code);
-    }
-  }
+  // function handleClick() {
+  //   if (editorRef.current) {
+  //     window.alert(code);
+  //   }
+  // }
     
   function htmldownload() {
     if (editorRef.current) {
