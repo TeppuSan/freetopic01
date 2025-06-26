@@ -41,11 +41,6 @@ background-color:silver;
     editorRef.current = editor;
   }
 
-  // function handleClick() {
-  //   if (editorRef.current) {
-  //     window.alert(code);
-  //   }
-  // }
     
   function htmldownload() {
     if (editorRef.current) {
@@ -185,16 +180,6 @@ background-color:silver;
                 // sandbox=""//内容の制限
                 />
             </div>
-            {/* <div className="buttonbox">
-                <button onClick=
-                {handleClick}
-                >これはalertボタンです
-                </button>
-                <button onClick=
-                {txtdownload}
-                >これはtxt保存ボタンです
-                </button>
-            </div> */}
         </div>
     )
 }
