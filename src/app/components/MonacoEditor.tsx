@@ -1,17 +1,14 @@
 "use client";
 
 import { Editor } from "@monaco-editor/react";
+import type * as monaco from "monaco-editor";
+
 
 import "./Monaco.css";
 import { useEffect,useRef,useState } from "react";
-useEffect
-useRef
-useState
-
-Editor
 
 export default function MonacoEditor(){
-    const editorRef=useRef<any>(null);
+    const editorRef=useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
     //useStateの基本構文
     const [code,setCode]=useState(//UseStateにて変更反映
 `<main>これはサンプルです</main>`);
@@ -40,7 +37,7 @@ background-color:silver;
   };
 
  
-  function handleEditorDidMount(editor: any) {
+  function handleEditorDidMount(editor: monaco.editor.IStandaloneCodeEditor) {
     editorRef.current = editor;
   }
 
