@@ -5,10 +5,21 @@ import type * as monaco from "monaco-editor";
 
 
 import "./Monaco.css";
-import { useRef, useState } from "react";
+import { useRef, useState, useCallback } from "react";
 
+// デバウンス関数
+function debounce(func: Function, delay: number) {
+  let timeoutId: NodeJS.Timeout;
+  return (...args: any[]) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => func(...args), delay);
+  };
+}
 
 export default function MonacoEditor() {
+  // エディタ本体のDOM参照用ref。高さを直接操作するために使う。
+  const editorDivRef = useRef<HTMLDivElement>(null);
+
 
   const themes = ["vs-dark", "light", "hc-black"];
   const [editorTheme, setEditorTheme] = useState(themes[0]);
@@ -31,9 +42,14 @@ export default function MonacoEditor() {
   const [code, setCode] = useState(//UseStateにて変更反映
     `<main>これはサンプルです</main>`);
 
-  const changeCode = (value: string | undefined) => {
-    setCode(value || "");
-  };
+
+  // デバウンス付きのchangeCode
+  const debouncedChangeCode = useCallback(
+    debounce((value: string | undefined) => {
+      setCode(value || "");
+    }, 300),
+    []
+  );
 
 
   const [csscode, setcssCode] = useState(//UseStateにて変更反映
@@ -41,18 +57,38 @@ export default function MonacoEditor() {
 background-color:silver;
 }`);
 
-  const changecssCode = (value: string | undefined) => {
-    setcssCode(value || "");
-  };
 
+  // デバウンス付きのchangecssCode
+  const debouncedChangecssCode = useCallback(
+    debounce((value: string | undefined) => {
+      setcssCode(value || "");
+    }, 300),
+    []
+  );
 
 
   const [jscode, setjsCode] = useState(//UseStateにて変更反映
     `console.log("hello")`);
 
-  const changejsCode = (value: string | undefined) => {
-    setjsCode(value || "");
-  };
+  //ここで入力の待機時間を設定
+  // デバウンス付きのchangejsCode
+  const debouncedChangejsCode = useCallback(
+    debounce((value: string | undefined) => {
+      setjsCode(value || "");
+    }, 400),
+    []
+  );
+
+  // //ここで変更を反映
+  // const changecssCode = (value: string | undefined) => {
+  //   setcssCode(value || "");
+  // };
+  // const changeCode = (value: string | undefined) => {
+  //   setCode(value || "");
+  // };
+  // const changejsCode = (value: string | undefined) => {
+  //   setjsCode(value || "");
+  // };
 
 
   function handleEditorDidMount(editor: monaco.editor.IStandaloneCodeEditor) {
@@ -131,7 +167,11 @@ background-color:silver;
   return (
     <div className="box">
       <div className="Editorbox">
-        <div className="Editor" id="Edit">
+        <div
+          ref={editorDivRef} // エディタ本体のDOM参照
+          className="Editor"
+          id="Edit"
+        >
 
           <div className="Name">
             <div className="edithead">
@@ -151,7 +191,7 @@ background-color:silver;
               height="100%"
               defaultLanguage="html"
               value={code}
-              onChange={changeCode}//入力が変わるごとに実行
+              onChange={debouncedChangeCode}//デバウンス付きに変更
               theme={editorTheme}
               onMount={handleEditorDidMount}//読み込まれた際に実行される
             />
@@ -170,7 +210,7 @@ background-color:silver;
               height="100%"
               defaultLanguage="css"
               value={csscode}
-              onChange={changecssCode}//入力が変わるごとに実行
+              onChange={debouncedChangecssCode}//デバウンス付きに変更
               theme={editorTheme}
               onMount={handleEditorDidMount}//読み込まれた際に実行される
             />
@@ -184,18 +224,39 @@ background-color:silver;
                 title="javascriptファイルのダウンロードをします"
               >download
               </button>
-              <button
-                className="theme-button"
-                onClick={changetheme}
-                title="editorのテーマを変更できます"
-              >{editorTheme}
-              </button>
+              <div className="editor-controls">
+                <button
+                  title="エディタの高さを最大化します"
+                  className="open" onClick={() => {
+                    if (editorDivRef.current) {
+                      // 99vhにする（最大化）
+                      editorDivRef.current.style.height = "100vh";
+                    }
+                  }}>▼
+
+                </button>
+                <button
+                  title="エディタの高さを最小化します"
+                  className="close" onClick={() => {
+                    if (editorDivRef.current) {
+                      editorDivRef.current.style.height = "25px";
+                    }
+                  }}>▲
+
+                </button>
+                <button
+                  className="theme-button"
+                  onClick={changetheme}
+                  title="editorのテーマを変更できます"
+                >{editorTheme}
+                </button>
+              </div>
             </div>
             <Editor
               height="100%"
               defaultLanguage="javascript"
               value={jscode}
-              onChange={changejsCode}//入力が変わるごとに実行
+              onChange={debouncedChangejsCode}//デバウンス付きに変更
               theme={editorTheme}
               onMount={handleEditorDidMount}//読み込まれた際に実行される
             />

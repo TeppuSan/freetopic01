@@ -8,14 +8,56 @@
 }
 
 .Editor {
-    height: 300px;
     min-height: 25px;
+    height: 300px;
     max-height: 100vh;
     display: flex;
     resize: vertical;
     overflow: hidden;
     width: 100%;
+    border: 1px solid black;
+
+    position: relative;
+    /* これがないと ::after の位置指定が効きません */
 }
+
+.Editor::after {
+    content: "⬍";
+    position: absolute;
+    bottom: -2px;
+    right: 1px;
+    font-size: 18px;
+    color: #b8b8b8;
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+.Editor:hover::after {
+    font-size: 18px;
+    color: #b8b8b8;
+    opacity: 1;
+}
+
+
+.editor-controls {
+    width: 300px;
+    margin-left: auto;
+    display: flex;
+}
+
+.open {
+    width: 100px;
+}
+
+
+.close {
+    width: 100px;
+}
+
+.theme-button {
+    width: 100px;
+}
+
 
 .Name {
     width: 100%;
@@ -37,17 +79,12 @@
 }
 
 button {
-    margin: 0 0 0 15px;
+    width: 100px;
     background-color: rgb(0, 0, 0);
 }
 
 button:hover {
     background-color: rgb(44, 44, 44);
-}
-
-.theme-button {
-    width: 100px;
-    margin-left: auto;
 }
 
 .html {
