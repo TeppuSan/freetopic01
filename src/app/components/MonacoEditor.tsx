@@ -8,11 +8,11 @@ import "./Monaco.css";
 import { useRef, useState, useCallback } from "react";
 
 // デバウンス関数
-function debounce(func: Function, delay: number) {
-  let timeoutId: NodeJS.Timeout;
-  return (...args: any[]) => {
+function debounce(func: (value: string | undefined) => void, delay: number) {
+  let timeoutId: ReturnType<typeof setTimeout>;
+  return (value: string | undefined) => {
     clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => func(...args), delay);
+    timeoutId = setTimeout(() => func(value), delay);
   };
 }
 
